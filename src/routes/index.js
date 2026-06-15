@@ -8,6 +8,7 @@ const workoutLogController = require('../controllers/workoutLogController');
 const mealLogController = require('../controllers/mealLogController');
 const waterLogController = require('../controllers/waterLogController');
 const weightLogController = require('../controllers/weightLogController');
+const chatController = require('../controllers/chatController');
 
 const router = express.Router();
 
@@ -45,5 +46,8 @@ router.get('/logs/water', waterLogController.getWaterLogs);
 // Weight logs
 router.post('/logs/weight', weightLogController.logWeight);
 router.get('/logs/weight', weightLogController.getWeightLogs);
+
+// AI chat
+router.post('/chat', chatController.chat);
 
 module.exports = router;

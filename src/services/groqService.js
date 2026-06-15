@@ -53,4 +53,32 @@ Respond ONLY with valid JSON in this exact shape:
   return JSON.parse(content);
 }
 
-module.exports = { generatePlan };
+async function chatReply(message, history = []) {
+  const messages = [
+    {
+      role: 'system',
+      content: 'You are FitFuel AI Coach, a friendly certified fitness and nutrition coach. Give concise, practical, encouraging answers about workouts, nutrition, recovery, and healthy habits. Keep replies under 150 words unless asked for detail.',
+    },
+    ...history,
+    { role: 'user', content: message },
+  ];
+
+  const response = await axios.post(
+    process.env.GROQ_API_URL,
+    {
+      model: 'llama-3.3-70b-versatile',
+      messages,
+      temperature: 0.7,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  return response.data.choices[0].message.content;
+}
+
+module.exports = { generatePlan, chatReply };
