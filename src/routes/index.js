@@ -9,10 +9,15 @@ const mealLogController = require('../controllers/mealLogController');
 const waterLogController = require('../controllers/waterLogController');
 const weightLogController = require('../controllers/weightLogController');
 const chatController = require('../controllers/chatController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router.use(authenticate);
+
+// Auth — create/sync user record in DB on every app login
+router.post('/auth/register', authController.registerUser);
+router.post('/users/sync', authController.registerUser);
 
 // Profile
 router.get('/profile', profileController.getProfile);
